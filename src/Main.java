@@ -7,17 +7,20 @@ public class Main {
         Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ovchip", "postgres", "halloo");
 
         ReizigerDAOsql daOsql = new ReizigerDAOsql(conn);
-        getConnection();
-        closeConnection();
         testReizigerDAO(daOsql);
 
+        try {
+            conn.close();
+            if (conn.isClosed()) {
+                System.out.println("" +
+                        "de connectie is gestopt");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
-    private static void closeConnection() {
-    }
-
-    private static void getConnection() {
-    }
 
 
     private static void testReizigerDAO(ReizigerDAO rdao) throws SQLException {
@@ -77,12 +80,6 @@ public class Main {
         rdao.update(keesie);
         System.out.println("[Test] " + kees.getVoorletters() + " " + kees.getTussenvoegsel() + " " + kees.getAchternaam() + " is geupdate naar: " +
                 "" + keesie.getVoorletters() + " " + keesie.getTussenvoegsel() + " " + keesie.getAchternaam());
-
-
-
-
-
-
 
     }
 }
